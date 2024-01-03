@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap Navbar with Image Behind</title>
+    <title>ORANGE fest!</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
@@ -20,7 +20,7 @@
 
     .center-content {
         position: absolute;
-        top: 50%;
+        top: 30%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
@@ -53,16 +53,14 @@
 <div class="container-fluid p-0">
 <nav class="navbar navbar-expand-lg navbar-light container-fluid">
             <div class="container-fluid">
-                <a href="#" class="navbar-brand text-white">Brand</a>
+                <a href="#" class="navbar-brand text-white">OrFest!</a>
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav">
                         <a href="#" class="nav-item nav-link active text-white">Home</a>
-                        <a href="#" class="nav-item nav-link text-white">Profile</a>
-                        <a href="#" class="nav-item nav-link text-white">Messages</a>
-                        <a href="#" class="nav-item nav-link disabled text-white" tabindex="-1">Reports</a>
+                        <a href="#" class="nav-item nav-link text-white">Tiket</a>
                     </div>
                     <div class="navbar-nav ms-auto">
                         <a href="{{ route('login') }}" class="nav-item nav-link text-white">Login</a>
@@ -70,10 +68,15 @@
                 </div>
             </div>
         </nav>
-        <img src="assets/img/landing.jpg" alt="Landing Page Image" class="img-fluid vw-100">
+        <img src="assets/img/landing2.png" alt="Landing Page Image" class="img-fluid vw-100">
         <div class="center-content">
-            <h1>Teks di Tengah</h1>
-            <button class="btn btn-primary">Tombol di Tengah</button>
+            <h1>ORANGE <i>fest!</i></h1>
+            <p style="color: white">
+            Acara ini diselenggarakan dengan penuh dedikasi oleh para mahasiswa yang berbakat dan bersemangat,
+             menciptakan pengalaman yang tak terlupakan.
+              Segera dapatkan tiket Anda dan bergabunglah dengan <b>OrFest!</b> 
+            </p>
+            <a href="{{ route('login') }}" class="btn btn-primary" style="background-color: #FFCE31; font-family: Mattone150">Beli Tiket &rarr;</a>
         </div>
     </div>
 
