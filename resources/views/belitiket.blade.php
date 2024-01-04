@@ -113,41 +113,43 @@
             <div class="contact-image">
                 <img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact"/>
             </div>
-            <form method="post">
+            <form action="{{ route('transactions.create') }}" method="POST">
+            @csrf
                 <h3>Beli Tiket</h3>
                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <input type="text" name="txtName" class="form-control" placeholder="Nama Lengkap *" value="" />
+                            <input type="text" name="Name" class="form-control" placeholder="Nama Lengkap *" value="{{ $username }}"/>
                         </div>
                         <div class="form-group">
-                            <input type="text" name="txtEmail" class="form-control" placeholder="Nomor Telpon *" value="" />
+                            <input type="text" name="no_telephone" class="form-control" placeholder="Nomor Telpon *" value="" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         
                             <div class="form-group">
-                                <select class="form-control" id="exampleFormControlSelect1">
-                                    <option>Jenis Tiket</option>
-                                    <option>Early Bid - Rp200.000/Tiket</option>
-                                    <option>Feedback</option>
-                                </select>
+                            <select class="form-control" name="kategori" id="exampleFormControlSelect1">
+                                <option value="">Jenis Tiket</option>
+                                @foreach ($kategori_tiket as $item)
+                                    <option value="{{ $item->id }}">{{ $item->kategori_tiket }} - Rp{{ $item->harga_tiket }}/Tiket</option>
+                                @endforeach
+                            </select>
                             </div>
 
                             <div class="form-group">
-                                <input type="number" name="txtPhone" class="form-control" placeholder="Jumlah *" value="" />
+                                <input type="number" name="jumlah_tiket" class="form-control" placeholder="Jumlah *" value="" />
                             </div>
 
                             <div class="form-group">
                                 <select class="form-control" id="exampleFormControlSelect1">
                                     <option>Metode Pembayaran</option>
-                                    <option>Early Bid - Rp200.000/Tiket</option>
-                                    <option>Feedback</option>
+                                    <option>Transfer</option>
+                                    <option>QRis</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <input type="submit" name="btnSubmit" class="btnContact" value="Send Message" />
+                                <input type="submit" name="btnSubmit" class="btnContact" value="Beli" />
                             </div>
 
                         

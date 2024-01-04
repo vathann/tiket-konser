@@ -39,6 +39,10 @@
     h1{
         font-family: 'Mattone150';
     }
+
+    h3{
+        font-family: 'Mattone150';
+    }
     .text-primary {
         color: black;
     }
@@ -76,11 +80,11 @@
   <!-- Jumbotron -->
   <div class="px-4 py-5 px-md-5 text-center text-lg-start">
     <div class="container">
-      <div class="row gx-lg-5 align-items-center">
-        <div class="col-lg-6 mb-5 mb-lg-0">
+      <div class="row gx-lg-2">
+        <div class="col-lg-6 mb-5 mt-2 mb-lg-0">
           <h1 class="my-5 display-3 fw-bold ls-tight">
-            Masuk<br />
-            <span class="text-primary">bergembira berdendang bersama</span>
+            Daftar akun<br />
+            <span class="text-primary">lalu bergembira berdendang bersama</span>
           </h1>
         </div>
 
@@ -88,6 +92,7 @@
           <div class="card">
             <div class="card-body py-5 px-md-5">
             <form action="{{ route('register.save') }}" method="POST" class="user">
+                <h3 class="display-7 fw-bold ls-tight">Register</h3>
             @csrf
                 <!-- 2 column grid layout with text inputs for the first and last names -->
                 <div class="row">

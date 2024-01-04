@@ -5,8 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>List Pesanan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
     @font-face {
     font-family: 'Mattone150'; /* Nama font yang akan Anda gunakan */
@@ -103,84 +110,160 @@
         $('#searchButton').on('click', function () {
             table.search($('#search').val()).draw();
         });
-
-        // Tambahkan event listener untuk klik tombol "Detail"
-        $('.btn-detail').on('click', function (e) {
-            e.preventDefault();
-            var transactionId = $(this).data('transaction-id');
-            // Lakukan permintaan AJAX atau akses data detail transaksi sesuai kebutuhan
-            // Misalnya, jika menggunakan jQuery:
-            $.ajax({
-                url: '/transactions/' + transactionId,
-                type: 'GET',
-                success: function (response) {
-                    // Isi konten modal dengan data detail transaksi
-                    $('#modal-content').html(response);
-                    // Tampilkan modal
-                    $('#detail-modal').show();
-                }
-            });
-        });
-
-        // Tambahkan event listener untuk tombol close
-        $('.close').on('click', function () {
-            // Tutup modal
-            $('#detail-modal').hide();
-        });
     });
 </script>
+
+
 
 </head>
 <body>
 
 <div class="container-fluid p-0">
     <nav class="navbar navbar-expand-lg navbar-light container-fluid fixed-top">
-        <div class="```
-<div class="contact-form">
-    <div class="container">
-        <h3 class="text-center">List Pesanan</h3>
-        <table id="myTable" class="display">
-            <thead>
-                <tr>
-                    <th>ID Transaksi</th>
-                    <th>Tanggal</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($transactions as $transaksi)
-                <tr>
-                    <td>{{ $transaksi->id }}</td>
-                    <td>{{ $transaksi->tanggal }}</td>
-                    <td>{{ $transaksi->status }}</td>
-                    <td><a href="#" class="btn btn-primary btn-detail" data-transaction-id="{{ $transaksi->id }}">Detail</a></td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- Modal Detail -->
-<div id="detail-modal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Detail Transaksi</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+            <div class="container-fluid">
+                <a href="#" class="navbar-brand text-white">Admin</a>
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    
+                    <div class="navbar-nav">
+                    <a href="{{ route('dashboard-admin') }}" class="nav-item nav-link text-white">Dashboard</a>
+                        <a href="{{ route('transactions.index')}}" class="nav-item nav-link text-white">Daftar Pesanan</a>
+                        <a href="{{ route('tickets.index') }}" class="nav-item nav-link text-white">Stok Tiket</a>
+                    </div>
+                    <div class="navbar-nav ms-auto">
+                        <a href="{{ route('logout') }}" class="nav-item nav-link text-white">Logout</a>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body" id="modal-content">
-                <!-- Konten modal akan diisi melalui AJAX -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </nav>
+    
+
+    <div class="container contact-form">
+            <form method="post">
+                <h3>Daftar Pesanan</h3>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="search" class="form-label">Cari Pesanan:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="search">
+                            <button class="btn btn-primary" id="searchButton">Cari</button>
+                        </div>
+                    </div>
+                </div>
+
+               <div class="row">
+                    <div class="table-responsive">
+
+                    <!--Table-->
+                    <table class="table">
+
+                    <!--Table head-->
+                    <thead>
+                        <tr>
+                        <th class="th-lg">ID</th>
+                        <th class="th-lg">Jenis Tiket</th>
+                        <th class="th-lg">Nama</th> 
+                        <th class="th-lg">Status</th>       
+                        <th class="th-lg">Total</th>            
+                        <th class="th-lg">Detail</th>
+                        </tr>
+                    </thead>
+                    <!--Table head-->
+
+                    <!--Table body-->
+                    <tbody>
+                    @foreach($transactions as $transaksi)
+                    <tr>
+                        <td>{{ $transaksi->id }}</td>
+                        <td>{{ $transaksi->kategori }}</td>
+                        <td>{{ $transaksi->nama_pemilik }}</td>
+                        <td>{{ $transaksi->payment_status }}</td>
+                        <td>{{ $transaksi->total_bayar }}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-detail" data-toggle="modal" data-target="#detailModal{{ $transaksi->id }}">Detail</button>
+                        </td>
+
+                    </tr>
+                    @endforeach
+                    </tbody>
+                    <!--Table body-->
+
+                    </table>
+                    <!--Table-->
+
+                    </div>
+            </form>
+        </div>
+
+    
+
+    <!-- Your content goes here -->
+
+        @foreach ($transactions as $transaksi)
+        <!-- Modal -->
+        <div class="modal fade" id="detailModal{{ $transaksi->id }}" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel{{ $transaksi->id }}" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailModalLabel{{ $transaksi->id }}">Detail Transaksi</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                    <table>
+                            <tr>
+                                <td>ID</td>
+                                <td>:</td>
+                                <td>{{ $transaksi->id }}</td>
+                            </tr>
+                            <tr>
+                                <td>Jenis Tiket</td>
+                                <td>:</td>
+                                <td>{{ $transaksi->kategori }}</td>
+                            </tr>
+                            <tr>
+                                <td>Nama</td>
+                                <td>:</td>
+                                <td>{{ $transaksi->nama_pemilik }}</td>
+                            </tr>
+                            <tr>
+                                <td>No. Telephone</td>
+                                <td>:</td>
+                                <td>{{ $transaksi->no_telephone }}</td>
+                            </tr>
+                            <tr>
+                                <td>Jumlah Tiket</td>
+                                <td>:</td>
+                                <td>{{ $transaksi->jumlah_tiket }}</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td>:</td>
+                                <td>{{ $transaksi->total_bayar }}</td>
+                            </tr>
+                            <tr>
+                                <td>Status Pembayaran</td>
+                                <td>:</td>
+                                <td>{{ $transaksi->payment_status }}</td>
+                            </tr>
+                            <tr>
+                                <td>Pesanan Dibuat</td>
+                                <td>:</td>
+                                <td>{{ $transaksi->created_at }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    @endforeach
 
 </body>
 </html>
+

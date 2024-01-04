@@ -6,6 +6,14 @@
     <title>Stok</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+        <!-- JavaScript -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
     @font-face {
     font-family: 'Mattone150'; /* Nama font yang akan Anda gunakan */
@@ -119,8 +127,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav">
-                        <a href="{{ route('listbuy') }}" class="nav-item nav-link active text-white">Daftar Pesanan</a>
-                        <a href="{{ route('beli') }}" class="nav-item nav-link text-white">Stok Tiket</a>
+                    <a href="{{ route('dashboard-admin') }}" class="nav-item nav-link text-white">Dashboard</a>
+                        <a href="{{ route('transactions.index')}}" class="nav-item nav-link text-white">Daftar Pesanan</a>
+                        <a href="{{ route('tickets.index') }}" class="nav-item nav-link text-white">Stok Tiket</a>
                     </div>
                     <div class="navbar-nav ms-auto">
                         <a href="{{ route('home') }}" class="nav-item nav-link text-white">Logout</a>
@@ -132,55 +141,42 @@
 
     <div class="container contact-form">
             <form method="post">
-                <h3>Daftar Pesanan</h3>
+                <h3>List Tiket</h3>
                 
-               <div class="row">
-                    <div class="table-responsive">
-
+                <div class="row justify-content-end">
+                <div class="table-responsive">
+                    <!-- Tambahkan tombol "Tambah Tiket" di sini -->
+                    <a href="{{ route('tickets.create') }}" class="btn btn-primary mb-3">Tambah Tiket</a>
                     <!--Table-->
                     <table class="table">
 
                     <!--Table head-->
                     <thead>
                         <tr>
-                        <th>No</th>
-                        <th class="th-lg">Jenis Tiket</th>
-                        <th class="th-lg">Harga</th>
-                        <th class="th-lg">Sisa Stok</th>
-                        <th class="th-lg">Aksi</th>
+                            <th>No</th>
+                            <th>Jenis Tiket</th>
+                            <th>Harga</th>
+                            <th>Sisa Stok</th>
+                            <th>Edit</th>
+                            <th>Hapus</th>
                         </tr>
                     </thead>
-                    <!--Table head-->
-
-                    <!--Table body-->
                     <tbody>
-                        <tr>
-                        <th scope="row">1</th>
-                        <td>Day 1</td>
-                        <td>Rp900.000</td>
-                        <td>9</td>
-                        <td>
-                        <button type="button" class="btn btn-warning">Edit</button> 
-                        <button type="button" class="btn btn-danger">Hapus</button></td>
-                        </tr>
-                        <tr>
-                        <th scope="row">2</th>
-                        <td>Lorem ipsum dolor</td>
-                        <td>Lorem ipsum dolor</td>
-                        <td>Lorem ipsum dolor</td>
-                        <td>
-                        <button type="button" class="btn btn-warning">Edit</button> 
-                        <button type="button" class="btn btn-danger">Hapus</button></td>
-                        </tr>
-                        <tr>
-                        <th scope="row">3</th>
-                        <td>Lorem ipsum dolor</td>
-                        <td>Lorem ipsum dolor</td>
-                        <td>Lorem ipsum dolor</td>
-                        <td>
-                        <button type="button" class="btn btn-warning">Edit</button> 
-                        <button type="button" class="btn btn-danger">Hapus</button></td>
-                        </tr>
+                        @foreach ($tikets as $tiket)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $tiket->kategori_tiket }}</td>
+                                <td>{{ $tiket->harga_tiket }}</td>
+                                <td>{{ $tiket->jumlah_tiket }}</td>
+                                <td><a href="{{ route('tickets.edit', $tiket->id) }}" class="btn btn-warning">Edit</a></td>
+                                <td><form id="deleteForm{{ $tiket->id }}" action="/tickets-stok/{{ $tiket->id }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ $tiket->id }}')">Hapus</button>
+                                    </form></td>
+
+                            </tr>
+                        @endforeach
                     </tbody>
                     <!--Table body-->
 
@@ -188,46 +184,46 @@
                     <!--Table-->
 
                     </div>
+                </div>
             </form>
         </div>
 
 
-        <script>
-            $(document).ready(function () {
-                // Tambahkan event listener untuk tombol "Edit"
-                $('.btn-warning').on('click', function () {
-                    // Ambil data dari baris tabel (di sini diasumsikan bahwa data di dalam kolom pertama)
-                    var rowData = $(this).closest('tr').find('td').map(function () {
-                        return $(this).text();
-                    }).get();
 
-                    // Isi data ke dalam card (misalnya, ke dalam input pada card)
-                    $('#editData').val(rowData[1]); // Menggunakan indeks 1 untuk kolom kedua sebagai contoh
-
-                    // Tampilkan card
-                    $('#editCard').show();
-                });
-            });
-        </script>
-
-
-        <div id="editCard" class="card" style="display: none;">
-            <div class="card-body">
-                <!-- Isi card disini -->
-                <h5 class="card-title">Edit Data</h5>
-                <form>
-                    <!-- Form untuk pengeditan data -->
-                    <div class="mb-3">
-                        <label for="editData">Edit Data:</label>
-                        <input type="text" class="form-control" id="editData">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </form>
-            </div>
-        </div>
+        
 
 
     <!-- Your content goes here -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+   $(document).ready(function() {
+      var urlParams = new URLSearchParams(window.location.search);
+      var successMessage = urlParams.get('success');
+
+      if (successMessage) {
+         showDeleteSuccessMessage();
+      }
+   });
+</script>
+
+
+<script>
+   function confirmDelete(ticketId) {
+      if (confirm("Apakah Anda yakin ingin menghapus tiket ini?")) {
+         // Jika pengguna menekan tombol OK dalam kotak dialog konfirmasi,
+         // langsung kirimkan formulir deleteForm untuk merutekan ke tickets.destroy.
+
+         $('#deleteForm' + ticketId).submit();
+      }
+   }
+
+   function showDeleteSuccessMessage() {
+      alert("Tiket berhasil dihapus");
+   }
+</script>
+
 
 </body>
 </html>

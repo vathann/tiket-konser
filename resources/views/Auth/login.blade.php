@@ -37,6 +37,10 @@
     h1{
         font-family: 'Mattone150';
     }
+
+    h3{
+        font-family: 'Mattone150';
+    }
     .text-primary {
         color: black;
     }
@@ -100,6 +104,7 @@
 
                 <!-- Email input -->
                 <div name="form-group" class="form-outline mb-4">
+                <h3 class="display-7 fw-bold ls-tight">Log In</h3>
                   <input name="email" type="email" id="form3Example3" class="form-control form-control-user" />
                   <label class="form-label" for="form3Example3">Email address</label>
                 </div>
