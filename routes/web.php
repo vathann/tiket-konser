@@ -6,6 +6,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TicketsController;
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
+use App\Models\Transaction;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,11 +31,15 @@ Route::get('/edit-tiket', function () {
     return view('edit-tiket');
 })->name('signup');
 
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
 Route::get('/beli', [Controller::class, 'form_beli'])->name('beli');
 Route::post('/beli', [TransactionController::class, 'create'])->name('transactions.create');
 
 Route::get('/myticket', [TransactionController::class, 'myticket'])->name('myticket')->middleware('auth');
-
+Route::get('/myticket/{id}', [TransactionController::class, 'destroy'])->name('myticket.destroy');
 Route::get('/dashboard-admin', [Controller::class, 'index'])->name('dashboard-admin');
 
 
@@ -49,8 +54,9 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
-Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
 Route::get('/transactions/{transaction}', [TransactionController::class, 'show'])->name('transactions.show');
+Route::get('/transactions/{id}/edit', [TransactionController::class, 'edit_admin'])->name('transactions.edit');
+Route::post('/transactions/{id}', [TransactionController::class, 'update_admin'])->name('transactions.update');
 Route::post('/transactions/{id}/mark-paid', [TransactionController::class, 'markPaid'])->name('transactions.markPaid');
 Route::post('/transaksi/{id}/lunasi', [TransactionController::class, 'lunasi'])->name('transaksi.lunasi');
 Route::post('/print-tiket/{id}', [TransactionController::class, 'printTiket'])->name('print.tiket');
@@ -61,3 +67,6 @@ Route::get('/tickets-stok/{id}/edit', [TicketsController::class, 'edit'])->name(
 Route::post('/tickets-stok/{id}', [TicketsController::class, 'update'])->name('tickets.update');
 Route::get('/tickets-stok/create', [TicketsController::class, 'create'])->name('tickets.create');
 Route::post('/tickets-stok', [TicketsController::class, 'store'])->name('tickets.store');
+
+Route::post('/myticket/{id}', [TransactionController::class, 'update'])->name('myticket.update');
+Route::get('/myticket/{id}/edit', [TransactionController::class, 'edit'])->name('myticket.edit');
