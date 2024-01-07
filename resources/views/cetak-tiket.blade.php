@@ -49,22 +49,19 @@ html {
 .image {
 	height: 250px;
 	width: 250px;
-	background-image: url("assets/img/ticket_img.png");
+	background-image: url("/assets/img/ticket_img.png");
 	background-size: contain;
-	opacity: 0.85;
 }
 
 .admit-one {
 	position: absolute;
-	color: darkgray;
+	color: #E3602E;
 	height: 250px;
 	padding: 0 10px;
 	letter-spacing: 0.15em;
 	display: flex;
 	text-align: center;
 	justify-content: space-around;
-	writing-mode: vertical-rl;
-	transform: rotate(-180deg);
 }
 
 .admit-one span:nth-child(2) {
@@ -79,6 +76,7 @@ html {
 	justify-content: flex-end;
 	align-items: flex-end;
 	padding: 5px;
+	
 }
 
 .ticket-info {
@@ -88,6 +86,7 @@ html {
 	text-align: center;
 	justify-content: space-between;
 	align-items: center;
+	
 }
 
 .date {
@@ -127,7 +126,7 @@ html {
 	font-size: 48px;
 	font-weight: 700;
 	letter-spacing: 0.1em;
-	color: #4a437e;
+	color: #E3602E;
 }
 
 .time {
@@ -169,16 +168,16 @@ html {
 }
 
 .right .admit-one {
-	color: darkgray;
+	color: #E3602E;
 }
 
 .right .admit-one span:nth-child(2) {
-	color: gray;
+	color: #E3602E;
 }
 
 .right .right-info-container {
 	height: 250px;
-	padding: 10px 10px 10px 35px;
+	padding: 0px 0px 00px 0x;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
@@ -198,7 +197,7 @@ html {
 }
 
 .right .ticket-number {
-	color: gray;
+	color: #E3602E;
 }
 
 
@@ -228,7 +227,7 @@ function printPage() {
 	<div class="b_tiket">
 	<div class="left">
 		<div class="image">
-            <img src='assets/img/ticket_img.png' alt="">
+			<img src="/assets/img/ticket_img.png" style="height: 250px; width: 250px;">
 			
 			<p class="admit-one">
 				<span>ADMIT ONE</span>
@@ -237,7 +236,7 @@ function printPage() {
 			</p>
 			<div class="ticket-number">
 				<p>
-				<p>{{ $transaksi->nama_pemilik }}</p>
+				{{ $transaksi->nama_pemilik }} || 
 				<?php
 					$nomor = rand(1000, 9999);
 				?>
@@ -264,16 +263,9 @@ function printPage() {
 		</div>
 	</div>
 	<div class="right">
-		<p class="admit-one">
-
-		</p>
 		<div class="right-info-container">
-			<div class="show-name">
 
-			</div>
-			<div class="time">
-
-			</div>
+			<p class="ticket-number">SCAN QR PADA PANITIA</p>
 			<div class="barcode">
 				<img src="https://external-preview.redd.it/cg8k976AV52mDvDb5jDVJABPrSZ3tpi1aXhPjgcDTbw.png?auto=webp&s=1c205ba303c1fa0370b813ea83b9e1bddb7215eb" alt="QR code">
 			</div>
