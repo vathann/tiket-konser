@@ -13,6 +13,7 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
     
     @font-face {
@@ -153,8 +154,18 @@
                         <td>
                         @if ($transaksi->payment_status == 'lunas')
                         <button type="button" class="btn btn-primary btn-detail" data-toggle="modal" data-target="#detailModal{{ $transaksi->id }}">Detail</button>
+                        <form action="{{ route('print.tiket', ['id' => $transaksi->id]) }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        @method('POST')
+                        <button type="submit" class="btn btn-secondary">Print</button>
+                        </form>
                         @else
-                        <button type="button" class="btn btn-warning btn-detail" data-toggle="modal" data-target="#lunasiModal{{ $transaksi->id }}">Lunasi</button>
+                        <button type="button" class="btn btn-success btn-detail" data-toggle="modal" data-target="#lunasiModal{{ $transaksi->id }}">Lunasi</button>
+                        <a href="{{ route('myticket.edit', $transaksi->id) }}" class="btn btn-warning">Edit</a>
+                        <?php
+                        $id_transaksi = $transaksi->id;
+                        ?>
+                        <a href="{{ route('myticket.destroy', ['id' => $transaksi->id]) }}" class="btn btn-danger">Hapus</a>
                         @endif
                         </td>
                             
@@ -235,11 +246,6 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                        <form action="{{ route('print.tiket', ['id' => $transaksi->id]) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        @method('POST')
-                        <button type="submit" class="btn btn-primary">Print</button>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -363,5 +369,37 @@ function openPrintWindow(event) {
     };
 }
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<script>
+$(document).ready(function() {
+  var urlParams = new URLSearchParams(window.location.search);
+  var successMessage = urlParams.get('success');
+
+  if (successMessage) {
+     showDeleteSuccessMessage();
+  }
+});
+</script>
+
+
+<script>
+function confirmDelete(transaksi_id) {
+  if (confirm("Apakah Anda yakin ingin menghapus tiket ini?")) {
+     // Jika pengguna menekan tombol OK dalam kotak dialog konfirmasi,
+     // langsung kirimkan formulir deleteForm untuk merutekan ke tickets.destroy.
+
+     $('#deleteForm' + transaksi_id).submit();
+  }
+}
+
+function showDeleteSuccessMessage() {
+  alert("Tiket berhasil dihapus");
+}
+</script>
+
+
 </body>
 </html>
